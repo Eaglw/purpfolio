@@ -1,0 +1,31 @@
+{{- $context := . -}}
+{{- $params := .Page.Params | merge .Site.Params.Page -}}
+
+{{- with partial "function/getImageSlice.html" .  -}}
+  {{- $index := len . -}}
+  {{- $context.Scratch.Add "img" slice -}}
+  {{- range sort . "Name" "desc" -}}
+    {{- $image := . -}}
+    {{- $index = sub $index 1 -}}
+    {{- $alt := .Name -}}
+    {{- with $params.unifiedAlt -}}
+      {{- $alt = . -}}
+    {{- end -}}
+    {{- $lores := .Resize (site.Params.loResOpt | default "700x webp Lanczos q60") -}}
+    {{- $hires := .Resize (site.Params.hiResOpt | default "2000x webp Lanczos q75") -}}
+    {{- $context.Scratch.Add "img" (dict
+      "index" (int $index)
+      "alt" (string $alt)
+      "loUrl" (string $lores.RelPermalink)
+      "loImgH" (int $lores.Height)
+      "loImgW" (int $lores.Width)
+      "hiUrl" (string $hires.RelPermalink)
+      "hiImgH" (int $hires.Height)
+      "hiImgW" (int $hires.Width)
+      )
+    -}}
+  {{- end -}}
+    {{ $context.Scratch.Get "img" | jsonify }}
+{{- else -}}
+[]
+{{- end -}}

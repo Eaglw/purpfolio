@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="{{- site.LanguageCode -}}">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {{- partial "head/link.html" . -}}
+    {{- partial "head/meta.html" . -}}
+    {{- partial "head/seo.html" . -}}
+    {{- partial "head/favicon.html" . -}}
+  </head>
+  <body lang="{{- site.LanguageCode -}}">
+    <div id="main">
+      {{- block "main" . -}}
+      {{- end -}}
+    </div>
+    <div class="analytics">
+      {{- partial "plugin/analytics.html" . -}}
+    </div>
+  </body>
+</html>

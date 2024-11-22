@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ .Site.Title }}</title>
+</head>
+<body>
+    <h1>{{ .Site.Title }}</h1>
+    {{ range first 5 .Pages }}
+        <div>
+            <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+            <p>{{ .Summary }}</p>
+        </div>
+    {{ end }}
+</body>
+</html>
