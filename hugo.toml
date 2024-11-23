@@ -19,8 +19,6 @@ enableRobotsTXT = true
 # * ja (powered by Noto Sans JP)
 # * ko (powered by Noto Sans KR)
 defaultContentLanguage = 'it'
-
-languageCode = 'en-us'
 # config/_default/hugo.toml
 [module]
 [[module.imports]]
