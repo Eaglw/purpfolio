@@ -1,7 +1,7 @@
 # timeout
 timeout = "1200s"
 # your website url
-baseURL = 'http://localhost:1313'
+baseURL = 'https://purpfolio.netlify.app/'
 # website title
 title = 'Purpfolio'
 # don't touch this
