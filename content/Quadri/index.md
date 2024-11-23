@@ -1,7 +1,7 @@
 ---
 type: _default
 layout: single
-url: /Quadri/
+url: /
 menu:
   main:
     weight: 1
@@ -9,8 +9,5 @@ menu:
     title: Quadri
 unifiedAlt: 'Quadri'
 _build:
-  publishResources: false
+  publishResources: true
 ---
-ciao prova prova
-
-iernerjn

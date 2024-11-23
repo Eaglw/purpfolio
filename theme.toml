@@ -1,0 +1,25 @@
+# theme.toml template for a Hugo theme
+# See https://github.com/gohugoio/hugoThemes#themetoml for an example
+
+name = "Bridget"
+license = "MIT"
+licenselink = "https://github.com/Sped0n/bridget/blob/main/LICENSE"
+description = "Bridget is a minimal Hugo theme designed for photographers/visual artists."
+homepage = "https://github.com/Sped0n/bridget"
+demosite = "https://bridget-demo.sped0nwen.com"
+tags = ["gallery", "minimal", "portfolio", "responsive"]
+features = ["SEO optimized", "TypeScript", "multi-language support"]
+
+[author]
+name = "sped0n"
+homepage = "https://github.com/Sped0n"
+
+[original]
+author = "Tyler McRobert"
+homepage = "https://github.com/tylermcrobert"
+repo = "https://github.com/tylermcrobert/bridget-pictures-www"
+
+[module]
+[module.hugoVersion]
+extended = true
+min = "0.114.0"

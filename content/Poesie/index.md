@@ -1,14 +1,16 @@
 ---
 type: _default
 layout: single
-url: /poesie/
+url: /Poesie/
 menu:
   main:
-    weight: 3
-    identifier: poesie
-    title: poesie
+    weight: 2
+    identifier: Poesie
+    title: Poesie
 unifiedAlt: 'poesie'
 _build:
   publishResources: false
 ---
-provo a scrivere poesia pazzerella bimbumbam 
+# Possiamo scrivere del testo in questo modo
+### o anche così
+e il resto anche così

@@ -1,12 +1,12 @@
 ---
 type: _default
 layout: single
-url: /Info/
+url: /About/
 menu:
   main:
     weight: 4
-    identifier: Info
-    title: Info
+    identifier: About
+    title: About
 unifiedAlt: ''
 _build:
   publishResources: false
