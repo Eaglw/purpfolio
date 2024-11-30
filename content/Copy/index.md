@@ -1,15 +1,13 @@
 ---
 type: _default
 layout: single
-url: /Design/
+url: /Copy/
 menu:
   main:
     weight: 3
-    identifier: Design
-    title: Design
+    identifier: Copy
+    title: Copy
 unifiedAlt: ''
 _build:
   publishResources: true
 ---
-
-design pazzo

@@ -11,15 +11,14 @@ unifiedAlt: ''
 _build:
   publishResources: false
 ---
+## Vittoria Laboccetta
 
-Bridget is a _minimal_ Hugo theme designed for photographers/visual artists, powered by <u>[Solid.js](https://www.solidjs.com)</u>.
+Nata a Napoli nel 1998, porto con me l’energia e il fascino della mia città, una fonte inesauribile di ispirazione che nutre ogni mio progetto creativo. Esploro mondi diversi: dalla pittura alla ceramica, dalla poesia alla sperimentazione di linguaggi visivi, in un dialogo continuo tra materia e immaginazione.
 
-The inspiration for this theme came from a video by <u>[Hyperlexed](https://www.youtube.com/@Hyperplexed)</u>, which can be found <u>[here](https://www.youtube.com/watch?v=Jt3A2lNN2aE)</u>. Initially, it was developed using no third-party dependencies. However, after website designer <u>[Tyler McRobert](https://tylermcrobert.com)</u> made the source code publicly available, I realized that I have invented many unnecessary wheels, and this project was modified to porting the original design to Hugo while focusing on _performance_.
+L’arte è il mio modo di raccontare storie, un ponte tra emozione e forma, tra intuizione e ricerca. Questo spazio è il mio diario visivo, un luogo dove le mie opere incontrano i vostri occhi. 
 
-Once again, great shout out to <u>[Tyler McRobert](https://tylermcrobert.com)</u> for his inspiration to this project.
-
-[GitHub Repo ↗](https://github.com/Sped0n/bridget)
+Benvenuti: guardate, immaginate, sentite.
 
 Original site design by <u>[Tyler McRobert](https://tylermcrobert.com)</u>.
 
-&copy; {{< year >}} <u>[Spedon](https://github.com/Sped0n)</u> | Built with Hugo
+&copy; {{< year >}} <u>[Spedon](https://github.com/Sped0n/bridget)</u> | Built with <u>[Hugo](https://gohugo.io/)</u>

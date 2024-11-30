@@ -11,5 +11,3 @@ unifiedAlt: ''
 _build:
   publishResources: true
 ---
-
-design pazzo

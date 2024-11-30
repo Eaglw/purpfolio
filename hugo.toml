@@ -23,3 +23,8 @@ defaultContentLanguage = 'it'
 [module]
 [[module.imports]]
 path = "github.com/Sped0n/bridget/v2"
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
