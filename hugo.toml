@@ -2,6 +2,7 @@
 timeout = "1200s"
 # your website url
 baseURL = 'https://purpfolio.netlify.app/'
+description = "Questo spazio è il mio diario visivo, un luogo dove le mie opere incontrano i tuoi occhi.  © Vittoria Laboccetta"
 # website title
 title = 'Purpfolio'
 # don't touch this
