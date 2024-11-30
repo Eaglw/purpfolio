@@ -111,8 +111,8 @@ export default function Collection(props: {
           {(ij, i) => (
             <img
               ref={imgs[i()]}
-              height={ij.loImgH*1.5}
-              width={ij.loImgW*1.5}
+              height={ij.loImgH*20}
+              width={ij.loImgW*20}
               data-src={ij.loUrl}
               alt={ij.alt}
               style={{
