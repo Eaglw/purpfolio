@@ -2,8 +2,8 @@
     xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
     xmlns:xhtml="http://www.w3.org/1999/xhtml"
     ><url>
-            <loc>http://localhost:1313/About/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>http://localhost:1313/Art&amp;Copy/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>http://localhost:1313/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>http://localhost:1313/Poesie/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>http://localhost:1313/Quadri/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url></urlset>
+            <loc>http://192.168.0.189:1313/About/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://192.168.0.189:1313/Art&amp;Copy/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://192.168.0.189:1313/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://192.168.0.189:1313/Poesie/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://192.168.0.189:1313/Quadri/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url></urlset>
