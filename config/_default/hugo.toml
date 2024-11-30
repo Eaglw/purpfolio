@@ -23,3 +23,5 @@ defaultContentLanguage = 'it'
 [module]
 [[module.imports]]
 path = "github.com/Sped0n/bridget/v2"
+
+description = "Guarda, immagina, senti. © Vittoria Laboccetta"
