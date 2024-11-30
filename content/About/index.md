@@ -12,6 +12,7 @@ _build:
   publishResources: false
 ---
 ## Vittoria Laboccetta
+<img src="/images/minipurp.jpg" alt="pink" width="300">
 
 Nata a Napoli nel 1998, porto con me l’energia e il fascino della mia città, una fonte inesauribile di ispirazione che nutre ogni mio progetto creativo. Esploro mondi diversi: dalla pittura alla ceramica, dalla poesia alla sperimentazione di linguaggi visivi, in un dialogo continuo tra materia e immaginazione.
 
