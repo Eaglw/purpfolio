@@ -44,6 +44,7 @@ function Main(): JSX.Element {
 
   // states
   const [scrollable, setScollable] = createSignal(true)
+  const [isLibLoaded, setLibLoaded] = createSignal(true)
 
   createEffect(() => {
     if (scrollable()) {
@@ -52,6 +53,20 @@ function Main(): JSX.Element {
       container.classList.add('disableScroll')
     }
   })
+
+  Promise.all([
+    loadGsap(),
+    loadSwiper()
+  ]).then(([gsap, Swiper]) => {
+    _gsap = gsap;
+    // Inizializza Swiper
+    if (galleryInner) {
+      _swiper = new Swiper(galleryInner, { spaceBetween: 20 });
+      _swiper.on('slideChange', ({ realIndex }) => {
+        setIndex(realIndex);
+      });
+    }
+  }).catch(console.error);
 
   return (
     <>
