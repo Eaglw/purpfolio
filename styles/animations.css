@@ -1,4 +1,4 @@
-@-webkit-keyframes fadeIn {
+@keyframes fadeIn {
   from {
     opacity: 0;
   }
@@ -7,36 +7,56 @@
   }
 }
 
+/* Make sure we include standard animation properties, not just webkit prefixed ones */
 .animate {
-  -webkit-animation-duration: 1s;
   animation-duration: 1s;
-  -webkit-animation-fill-mode: both;
   animation-fill-mode: both;
   will-change: transform, opacity;
+  /* Force hardware acceleration on all browsers */
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: a1000px;
 }
 
 .fadeIn {
-  -webkit-animation-name: fadeIn;
   animation-name: fadeIn;
 }
 
-/* Assicurati che le animazioni siano abilitate anche su dispositivi a basso consumo */
+/* Ensure animations work on devices that prefer reduced motion */
 @media (prefers-reduced-motion: no-preference) {
   .animate {
     transition: all 0.3s ease-in-out;
   }
 }
 
-@media screen and (-webkit-min-device-pixel-ratio:0) and (min-resolution:.001dpcm) {
-  .animate {
-    -webkit-transform: translateZ(0);
-    transform: translateZ(0);
-    backface-visibility: hidden;
-    perspective: 1000px;
-  }
+/* Android specific fixes */
+.android-device .animate {
+  /* Additional properties for Android devices */
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden !important;
+  perspective: 1000 !important;
 }
 
-.android-chrome {
+/* Specifically for Chrome on Android */
+.android-chrome .animate {
   transition: opacity 0.3s linear !important;
-  transform: none !important;
+  transform: translate3d(0, 0, 0) !important;
+  animation: none !important; /* Disable complex animations */
+}
+
+/* Android fix class for specific elements */
+.android-fix {
+  /* For particularly problematic elements */
+  position: relative;
+  z-index: 1;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Fix for slider animations on Android */
+.android-device .swiper-slide {
+  transform: translate3d(0, 0, 0) !important;
+  transition: transform 0.3s ease-out, opacity 0.3s ease-out !important;
 }

@@ -58,4 +58,4 @@ Disallow: /
 User-agent: *
 Allow: /
 
-Sitemap: http://192.168.1.14:1313/sitemap.xml
+Sitemap: http://192.168.1.6:1313/sitemap.xml

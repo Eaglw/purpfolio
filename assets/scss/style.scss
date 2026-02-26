@@ -8,3 +8,9 @@
 @import '_partial/gallery';
 
 @import 'node_modules/swiper/swiper.scss';
+
+.swiper-container,
+.swiper-slide {
+  transform: translate3d(0, 0, 0) !important;
+  backface-visibility: hidden !important;
+}

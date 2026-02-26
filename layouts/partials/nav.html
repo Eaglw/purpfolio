@@ -58,7 +58,8 @@
 {{- /* for threshold */ -}}
 <script>
   i = 2
-  const s = sessionStorage.getItem('thresholdsIndex')
+  var s = null;
+  try { s = sessionStorage.getItem('thresholdsIndex'); } catch(e) {}
   if (s !== null) {
     i = parseInt(s)
   }
