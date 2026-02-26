@@ -49,3 +49,9 @@ target = 'static'
 [[module.mounts]]
 source = "bundled"
 target = "assets/bundled"
+[[module.mounts]]
+source = "bundled/css"
+target = "static/bundled/css"
+[[module.mounts]]
+source = "bundled/js"
+target = "static/bundled/js"

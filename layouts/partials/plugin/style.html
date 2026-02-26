@@ -34,7 +34,9 @@
     {{- $href = . -}}
   {{- end -}}
   {{- if .Inline -}}
-    <style>{{- $resource.Content | safeCSS -}}</style>
+    {{- with $resource -}}
+      <style>{{- .Content | safeCSS -}}</style>
+    {{- end -}}
   {{- else if .Defer -}}
     <link
       rel="preload"

@@ -15,12 +15,7 @@ export async function getImageJSON(): Promise<ImageJSON[]> {
     return [] // no images on 404 page
   }
 
-  const ogUrlMetaTag = document.querySelector(
-    'meta[property="og:url"]'
-  ) as HTMLMetaElement | null
-  const indexJsonUrl = ogUrlMetaTag?.content
-    ? new URL('index.json', ogUrlMetaTag.content).href
-    : new URL('index.json', window.location.href).href
+  const indexJsonUrl = new URL('index.json', window.location.href).href
 
   try {
     const response = await fetch(indexJsonUrl, {
