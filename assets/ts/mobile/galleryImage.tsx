@@ -14,9 +14,33 @@ export default function GalleryImage(props: {
   let img: HTMLImageElement | undefined
   let loadingDiv: HTMLDivElement | undefined
 
-  let _gsap: typeof gsap
+  let _gsap: typeof gsap | undefined
 
   const [state] = useState()
+
+  const revealImage: () => void = () => {
+    invariant(img, 'ref must be defined')
+    invariant(loadingDiv, 'loadingDiv must be defined')
+
+    if (_gsap === undefined) {
+      img.style.opacity = '1'
+      loadingDiv.style.opacity = '0'
+      return
+    }
+
+    if (state().index !== props.ij.index) {
+      _gsap.set(img, { opacity: 1 })
+      _gsap.set(loadingDiv, { opacity: 0 })
+    } else {
+      _gsap.to(img, {
+        opacity: 1,
+        delay: 0.5,
+        duration: 0.5,
+        ease: 'power3.out'
+      })
+      _gsap.to(loadingDiv, { opacity: 0, duration: 0.5, ease: 'power3.in' })
+    }
+  }
 
   onMount(() => {
     loadGsap()
@@ -28,22 +52,13 @@ export default function GalleryImage(props: {
       })
     img?.addEventListener(
       'load',
-      () => {
-        invariant(img, 'ref must be defined')
-        invariant(loadingDiv, 'loadingDiv must be defined')
-        if (state().index !== props.ij.index) {
-          _gsap.set(img, { opacity: 1 })
-          _gsap.set(loadingDiv, { opacity: 0 })
-        } else {
-          _gsap.to(img, {
-            opacity: 1,
-            delay: 0.5,
-            duration: 0.5,
-            ease: 'power3.out'
-          })
-          _gsap.to(loadingDiv, { opacity: 0, duration: 0.5, ease: 'power3.in' })
-        }
-      },
+      () => revealImage(),
+      { once: true, passive: true }
+    )
+
+    img?.addEventListener(
+      'error',
+      () => revealImage(),
       { once: true, passive: true }
     )
   })

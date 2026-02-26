@@ -4,8 +4,8 @@ import {
   createSignal,
   For,
   on,
+  onCleanup,
   onMount,
-  Show,
   type Accessor,
   type JSX,
   type Setter
@@ -43,8 +43,9 @@ export default function Gallery(props: {
   setScrollable: Setter<boolean>
 }): JSX.Element {
   // variables
-  let _gsap: typeof gsap
-  let _swiper: Swiper
+  let _gsap: typeof gsap | undefined
+  let _swiper: Swiper | undefined
+  let initPromise: Promise<void> | undefined
 
   let curtain: HTMLDivElement | undefined
   let gallery: HTMLDivElement | undefined
@@ -56,6 +57,7 @@ export default function Gallery(props: {
   // states
   let lastIndex = -1
   let mounted = false
+  let hasOpenedGallery = false
   let navigateVector: Vector = 'none'
 
   const [state, { setIndex }] = useState()
@@ -64,9 +66,40 @@ export default function Gallery(props: {
   const [loads, setLoads] = createStore(Array<boolean>(props.ijs.length).fill(false))
 
   // helper functions
+  const ensureLibrariesLoaded: () => Promise<void> = async () => {
+    if (libLoaded()) return
+    if (initPromise !== undefined) {
+      await initPromise
+      return
+    }
+
+    initPromise = Promise.all([loadGsap(), loadSwiper()])
+      .then(([g, S]) => {
+        invariant(galleryInner, 'galleryInner is not defined')
+        _gsap = g
+        if (_swiper === undefined) {
+          _swiper = new S(galleryInner, { spaceBetween: 20 })
+          _swiper.on('slideChange', ({ realIndex }) => {
+            setIndex(realIndex)
+          })
+        }
+        setLibLoaded(true)
+      })
+      .catch((e) => {
+        console.log(e)
+        throw e
+      })
+      .finally(() => {
+        initPromise = undefined
+      })
+
+    await initPromise
+  }
+
   const slideUp: () => void = () => {
     // isAnimating is prechecked in isOpen effect
-    if (!libLoaded() || !mounted) return
+    if (!libLoaded() || !mounted || _gsap === undefined) return
+    hasOpenedGallery = true
     props.setIsAnimating(true)
 
     invariant(curtain, 'curtain is not defined')
@@ -92,6 +125,13 @@ export default function Gallery(props: {
 
   const slideDown: () => void = () => {
     // isAnimating is prechecked in isOpen effect
+    if (_gsap === undefined) {
+      props.setScrollable(true)
+      props.setIsAnimating(false)
+      lastIndex = -1
+      return
+    }
+
     props.setIsAnimating(true)
 
     invariant(gallery, 'curtain is not defined')
@@ -141,37 +181,18 @@ export default function Gallery(props: {
     // we are already in the gallery, don't need to
     // check mounted or libLoaded
     galleryLoadImages()
-    _swiper.slideTo(slide, 0)
+    _swiper?.slideTo(slide, 0)
   }
 
   // effects
   onMount(() => {
-    window.addEventListener(
-      'touchstart',
-      () => {
-        loadGsap()
-          .then((g) => {
-            _gsap = g
-          })
-          .catch((e) => {
-            console.log(e)
-          })
-        loadSwiper()
-          .then((S) => {
-            invariant(galleryInner, 'galleryInner is not defined')
-            _swiper = new S(galleryInner, { spaceBetween: 20 })
-            _swiper.on('slideChange', ({ realIndex }) => {
-              setIndex(realIndex)
-            })
-          })
-          .catch((e) => {
-            console.log(e)
-          })
-        setLibLoaded(true)
-      },
-      { once: true, passive: true }
-    )
     mounted = true
+    void ensureLibrariesLoaded()
+  })
+
+  onCleanup(() => {
+    _swiper?.destroy(true, true)
+    _swiper = undefined
   })
 
   createEffect(
@@ -199,12 +220,16 @@ export default function Gallery(props: {
   createEffect(
     on(
       () => {
-        props.isOpen()
+        return [props.isOpen(), libLoaded()] as const
       },
-      () => {
+      ([isOpen, isLibLoaded]) => {
+        if (!isLibLoaded) {
+          void ensureLibrariesLoaded()
+          return
+        }
         if (props.isAnimating()) return
-        if (props.isOpen()) slideUp()
-        else slideDown()
+        if (isOpen) slideUp()
+        else if (hasOpenedGallery) slideDown()
       },
       { defer: true }
     )
@@ -215,19 +240,13 @@ export default function Gallery(props: {
       <div ref={gallery} class="gallery">
         <div ref={galleryInner} class="galleryInner">
           <div class="swiper-wrapper">
-            <Show when={libLoaded()}>
-              <For each={props.ijs}>
-                {(ij, i) => (
-                  <div class="swiper-slide">
-                    <GalleryImage
-                      load={loads[i()]}
-                      ij={ij}
-                      loadingText={_loadingText}
-                    />
-                  </div>
-                )}
-              </For>
-            </Show>
+            <For each={props.ijs}>
+              {(ij, i) => (
+                <div class="swiper-slide">
+                  <GalleryImage load={loads[i()]} ij={ij} loadingText={_loadingText} />
+                </div>
+              )}
+            </For>
           </div>
         </div>
         <GalleryNav
