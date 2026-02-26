@@ -8,6 +8,6 @@ menu:
     identifier: 'Home'
     title: 'Home'
 unifiedAlt: ''
-_build:
+build:
   publishResources: true
 ---

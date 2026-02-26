@@ -8,6 +8,6 @@ menu:
     identifier: Art&Copy
     title: Art&Copy
 unifiedAlt: ''
-_build:
+build:
   publishResources: false
 ---

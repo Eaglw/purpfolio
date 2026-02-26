@@ -8,6 +8,6 @@ menu:
     identifier: Quadri
     title: Quadri
 unifiedAlt: ''
-_build:
+build:
   publishResources: false
 ---

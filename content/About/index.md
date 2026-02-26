@@ -8,7 +8,7 @@ menu:
     identifier: About
     title: About
 unifiedAlt: ''
-_build:
+build:
   publishResources: false
 ---
 ## Vittoria Laboccetta

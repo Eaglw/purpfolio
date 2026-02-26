@@ -1,0 +1,16 @@
+# OS files
+.DS_Store
+
+# Hugo
+public/
+resources/
+.hugo_build.lock
+
+# Node.js
+node_modules/
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
+
+# Vite
+static/bundled/

@@ -8,6 +8,6 @@ menu:
     identifier: Poesie
     title: Poesie
 unifiedAlt: 'poesie'
-_build:
+build:
   publishResources: false
 ---
