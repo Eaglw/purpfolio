@@ -50,12 +50,12 @@ function getNextElIndex(cordHistValue: HistoryItem[], stateValue: State): number
 }
 
 function getImagesFromIndexes(imgs: DesktopImage[], indexes: number[]): DesktopImage[] {
-  return indexes.map((i) => imgs[i])
+  return indexes.map((i) => imgs[i]).filter(img => img !== undefined)
 }
 
 function hires(imgs: DesktopImage[]): void {
   imgs.forEach((img) => {
-    if (img.src === img.dataset.hiUrl) return
+    if (!img || img.src === img.dataset.hiUrl) return
     img.src = img.dataset.hiUrl
     img.height = parseInt(img.dataset.hiImgH)
     img.width = parseInt(img.dataset.hiImgW)
@@ -64,7 +64,7 @@ function hires(imgs: DesktopImage[]): void {
 
 function lores(imgs: DesktopImage[]): void {
   imgs.forEach((img) => {
-    if (img.src === img.dataset.loUrl) return
+    if (!img || img.src === img.dataset.loUrl) return
     img.src = img.dataset.loUrl
     img.height = parseInt(img.dataset.loImgH)
     img.width = parseInt(img.dataset.loImgW)
@@ -146,9 +146,12 @@ export default function Stage(props: {
     if (trailElsIndex.length === 0) return
 
     const elsTrail = getImagesFromIndexes(imgs, trailElsIndex)
+    if (elsTrail.length === 0) return
 
     const _isOpen = props.isOpen()
     const _state = state()
+
+    if (!_gsap) return
 
     _gsap.set(elsTrail, {
       x: (i: number) => _cordHist[i].x - window.innerWidth / 2,
