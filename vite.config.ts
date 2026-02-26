@@ -22,7 +22,6 @@ export default defineConfig({
         assetFileNames: '[ext]/[name].[ext]',
         compact: true
       }
-<<<<<<< HEAD
     },
     terserOptions: {
       compress: {
@@ -30,14 +29,13 @@ export default defineConfig({
       },
       output: {
         comments: false
-=======
+      }
     }
   },
   css: {
     preprocessorOptions: {
       scss: {
         loadPaths: ['./assets/scss']
->>>>>>> upstream/main
       }
     }
   }

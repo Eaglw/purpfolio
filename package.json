@@ -13,7 +13,6 @@
     "dev": "run-p vite:dev hugo:dev",
     "build": "run-s vite:build hugo:build",
     "server": "run-p vite:server hugo:server",
-<<<<<<< HEAD
     "vite:build": "vite build --no-watch --minify terser",
     "vite:server": "vite build --minify terser",
     "vite:dev": "vite build --mode development --minify false",
@@ -21,15 +20,6 @@
     "hugo:preview": "hugo --logLevel info -D --gc",
     "hugo:dev": "hugo server --gc -D --disableFastRender --watch --logLevel info",
     "hugo:server": "hugo server --gc --disableFastRender -e production --watch --logLevel info"
-=======
-    "vite:build": "DISABLE_WATCH=1 vite build",
-    "vite:server": "vite build",
-    "vite:dev": "vite build --mode development --minify false",
-    "hugo:build": "hugo --logLevel info --source=exampleSite --minify",
-    "hugo:preview": "hugo --logLevel info --source=exampleSite -D",
-    "hugo:dev": "hugo server --source=exampleSite -D --disableFastRender --watch --logLevel info",
-    "hugo:server": "hugo server --source=exampleSite --disableFastRender -e production --watch --logLevel info"
->>>>>>> upstream/main
   },
   "repository": {
     "type": "git",
@@ -49,29 +39,6 @@
   },
   "homepage": "https://github.com/Sped0n/bridget#readme",
   "devDependencies": {
-<<<<<<< HEAD
-    "@typescript-eslint/eslint-plugin": "^6.21.0",
-    "@typescript-eslint/parser": "^6.21.0",
-    "eslint": "^8.57.1",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-config-standard": "^17.1.0",
-    "eslint-config-standard-with-typescript": "^43.0.1",
-    "eslint-import-resolver-typescript": "^3.6.3",
-    "eslint-plugin-import": "^2.29.1",
-    "eslint-plugin-n": "^16.6.2",
-    "eslint-plugin-prettier": "^5.5.5",
-    "eslint-plugin-promise": "^6.6.0",
-    "eslint-plugin-solid": "^0.14.2",
-    "npm-run-all": "^4.1.5",
-    "prettier": "3.3.3",
-    "prettier-plugin-go-template": "^0.0.15",
-    "prettier-plugin-organize-imports": "^4.0.0",
-    "sass": "^1.97.3",
-    "terser": "^5.31.6",
-    "typescript": "^5.9.3",
-    "vite": "^5.4.21",
-    "vite-plugin-solid": "^2.10.2"
-=======
     "@eslint/js": "^9.39.2",
     "@types/node": "^25.0.10",
     "@typescript-eslint/parser": "^8.53.1",
@@ -87,20 +54,16 @@
     "prettier-plugin-go-template": "^0.0.15",
     "prettier-plugin-organize-imports": "^4.3.0",
     "sass-embedded": "^1.97.3",
+    "terser": "^5.31.6",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.53.1",
     "vite": "^7.3.1",
     "vite-plugin-solid": "^2.11.10"
->>>>>>> upstream/main
   },
   "dependencies": {
     "gsap": "^3.14.2",
     "solid-js": "^1.9.11",
-<<<<<<< HEAD
-    "swiper": "^11.2.10",
-=======
     "swiper": "^12.1.2",
->>>>>>> upstream/main
     "tiny-invariant": "^1.3.3"
   }
 }

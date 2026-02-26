@@ -1,8 +1,9 @@
-{{- $images := slice -}}
-{{- range .Site.AllPages -}}
-  {{- $context := . -}}
-  {{- $params := .Params | merge $.Site.Params.Page -}}
-  {{- range .Resources.ByType "image" -}}
+{{- $context := . -}}
+{{- $params := .Page.Params | merge .Site.Params.Page -}}
+
+{{- with partial "function/getImageSlice.html" .  -}}
+  {{- $images := slice -}}
+  {{- range . -}}
     {{- $lores := .Resize (site.Params.loResOpt | default "700x webp Lanczos q60") -}}
     {{- $hires := .Resize (site.Params.hiResOpt | default "2000x webp Lanczos q75") -}}
     {{- $images = $images | append (dict
@@ -15,12 +16,14 @@
       "hiImgW" (int $hires.Width)
     ) -}}
   {{- end -}}
-{{- end -}}
 
-{{- /* Aggiungiamo l'indice dopo aver raccolto tutto */ -}}
-{{- $finalImages := slice -}}
-{{- range $index, $img := $images -}}
-  {{- $finalImages = $finalImages | append (merge $img (dict "index" $index)) -}}
-{{- end -}}
+  {{- /* Aggiungiamo l'indice dopo aver raccolto tutto */ -}}
+  {{- $finalImages := slice -}}
+  {{- range $index, $img := $images -}}
+    {{- $finalImages = $finalImages | append (merge $img (dict "index" $index)) -}}
+  {{- end -}}
 
-{{ $finalImages | jsonify }}
+  {{ $finalImages | jsonify }}
+{{- else -}}
+[]
+{{- end -}}
