@@ -56,13 +56,15 @@
   </div>
 </nav>
 {{- /* for threshold */ -}}
+// DOPO
 <script>
   i = 2
-  var s = null;
-  try { s = sessionStorage.getItem('thresholdsIndex'); } catch(e) {}
-  if (s !== null) {
-    i = parseInt(s)
-  }
+  try {
+    var s = sessionStorage.getItem('thresholdsIndex')
+    if (s !== null) {
+      i = parseInt(s)
+    }
+  } catch(e) {}
   var t = ''
   switch (i) {
     case 0:
