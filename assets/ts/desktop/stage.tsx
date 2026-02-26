@@ -153,11 +153,15 @@ export default function Stage(props: {
     _gsap.set(elsTrail, {
       x: (i: number) => _cordHist[i].x - window.innerWidth / 2,
       y: (i: number) => _cordHist[i].y - window.innerHeight / 2,
-      opacity: (i: number) =>
-        Math.max(
+      opacity: (i: number) => {
+        // If it's the current image (last in history), opacity 1
+        if (i === _cordHist.length - 1) return _isOpen ? 0 : 1;
+        // Trail opacity calculation
+        return Math.max(
           (i + 1 + _state.trailLength <= _cordHist.length ? 0 : 1) - (_isOpen ? 1 : 0),
           0
-        ),
+        );
+      },
       zIndex: (i: number) => i,
       scale: 0.6
     })
