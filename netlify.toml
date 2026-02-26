@@ -3,5 +3,6 @@ publish = "public" # Ensure this matches your output directory
 command = "hugo"
 
 [context.production.environment]
+NODE_VERSION = "22"
 HUGO_VERSION = "0.139.0"
 HUGO_EXTENDED = "true"
