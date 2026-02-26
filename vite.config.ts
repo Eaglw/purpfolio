@@ -5,6 +5,7 @@ export default defineConfig({
   plugins: [solidPlugin()],
   build: {
     outDir: './bundled',
+    target: 'es2018',
     watch:
       process.env.VITE_WATCH === '1'
         ? {
