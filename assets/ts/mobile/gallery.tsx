@@ -17,7 +17,7 @@ import invariant from 'tiny-invariant'
 import { type ImageJSON } from '../resources'
 import { useState } from '../state'
 import { loadGsap, type Vector } from '../utils'
-import { isAndroidChrome, setupAndroidFallback } from '../../../src/utils/androidDetection'
+import { setupAndroidFallback } from '../../../src/utils/androidDetection'
 
 import GalleryImage from './galleryImage'
 import GalleryNav, { capitalizeFirstLetter } from './galleryNav'

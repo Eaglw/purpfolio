@@ -12,7 +12,7 @@ export function detectAndroid() {
 }
 
 // Apply Android-specific fixes
-export function setupAndroidFallback() {
+export function setupAndroidFallback(animations) {
   const { isAndroid, isAndroidChrome } = detectAndroid();
   
   if (isAndroid) {
@@ -40,6 +40,7 @@ export function setupAndroidFallback() {
       });
     }
   }
+  return animations;
 }
 
 // Apply on load as well

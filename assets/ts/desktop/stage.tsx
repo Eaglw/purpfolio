@@ -50,7 +50,7 @@ function getNextElIndex(cordHistValue: HistoryItem[], stateValue: State): number
 }
 
 function getImagesFromIndexes(imgs: DesktopImage[], indexes: number[]): DesktopImage[] {
-  return indexes.map((i) => imgs[i]).filter(img => img !== undefined)
+  return indexes.map((i) => imgs[i])
 }
 
 function hires(imgs: DesktopImage[]): void {
@@ -145,23 +145,36 @@ export default function Stage(props: {
     const trailElsIndex = getTrailElsIndex(_cordHist)
     if (trailElsIndex.length === 0) return
 
-    const elsTrail = getImagesFromIndexes(imgs, trailElsIndex)
-    if (elsTrail.length === 0) return
-
     const _isOpen = props.isOpen()
     const _state = state()
 
     if (!_gsap) return
 
+    // Preserve mapping between history and images
+    const elsTrail: DesktopImage[] = []
+    const validCordHist: HistoryItem[] = []
+    
+    trailElsIndex.forEach((imgIndex, historyIndex) => {
+      const img = imgs[imgIndex]
+      if (img) {
+        elsTrail.push(img)
+        validCordHist.push(_cordHist[historyIndex])
+      }
+    })
+
+    if (elsTrail.length === 0) return
+
     _gsap.set(elsTrail, {
-      x: (i: number) => _cordHist[i].x - window.innerWidth / 2,
-      y: (i: number) => _cordHist[i].y - window.innerHeight / 2,
+      x: (i: number) => validCordHist[i].x - window.innerWidth / 2,
+      y: (i: number) => validCordHist[i].y - window.innerHeight / 2,
       opacity: (i: number) => {
         // If it's the current image (last in history), opacity 1
-        if (i === _cordHist.length - 1) return _isOpen ? 0 : 1;
-        // Trail opacity calculation
+        if (validCordHist[i] === _cordHist[_cordHist.length - 1]) return _isOpen ? 0 : 1;
+        
+        // Find position of this history item in the original history to calculate trail opacity
+        const originalIndex = _cordHist.indexOf(validCordHist[i]);
         return Math.max(
-          (i + 1 + _state.trailLength <= _cordHist.length ? 0 : 1) - (_isOpen ? 1 : 0),
+          (originalIndex + 1 + _state.trailLength <= _cordHist.length ? 0 : 1) - (_isOpen ? 1 : 0),
           0
         );
       },
@@ -170,7 +183,9 @@ export default function Stage(props: {
     })
 
     if (_isOpen) {
-      const elc = getImagesFromIndexes(imgs, [getCurrentElIndex(_cordHist)])[0]
+      const elc = getImagesFromIndexes(imgs, [getCurrentElIndex(_cordHist)]).filter(img => img !== undefined)[0]
+      if (!elc) return
+
       const indexArrayToHires: number[] = []
       const indexArrayToCleanup: number[] = []
       switch (props.navVector()) {
@@ -185,8 +200,8 @@ export default function Stage(props: {
         default:
           break
       }
-      hires(getImagesFromIndexes(imgs, indexArrayToHires)) // preload
-      _gsap.set(getImagesFromIndexes(imgs, indexArrayToCleanup), { opacity: 0 })
+      hires(getImagesFromIndexes(imgs, indexArrayToHires).filter(img => img !== undefined)) // preload
+      _gsap.set(getImagesFromIndexes(imgs, indexArrayToCleanup).filter(img => img !== undefined), { opacity: 0 })
       _gsap.set(elc, { x: 0, y: 0, scale: 1 }) // set current to center
       setLoaderForHiresImage(elc) // set loader, if loaded set current opacity to 1
     } else {
