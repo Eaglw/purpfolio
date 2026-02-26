@@ -4,7 +4,7 @@ layout: single
 url: /About/
 menu:
   main:
-    weight: 4
+    weight: 5
     identifier: About
     title: About
 unifiedAlt: ''

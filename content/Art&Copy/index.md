@@ -4,7 +4,7 @@ layout: single
 url: /Art&Copy/
 menu:
   main:
-    weight: 2
+    weight: 3
     identifier: Art&Copy
     title: Art&Copy
 unifiedAlt: ''

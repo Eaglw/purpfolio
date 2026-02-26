@@ -4,7 +4,7 @@ layout: single
 url: /Quadri/
 menu:
   main:
-    weight: 1
+    weight: 2
     identifier: Quadri
     title: Quadri
 unifiedAlt: ''

@@ -4,7 +4,7 @@ layout: single
 url: /Poesie/
 menu:
   main:
-    weight: 3
+    weight: 4
     identifier: Poesie
     title: Poesie
 unifiedAlt: 'poesie'
