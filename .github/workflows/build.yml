@@ -1,0 +1,83 @@
+name: 'Build'
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    name: Build (Hugo ${{ matrix.hugo-label }})
+    if: github.event.repository.fork == false
+    strategy:
+      matrix:
+        hugo-version: ['latest', '0.114.0']
+        include:
+          - hugo-version: latest
+            hugo-label: Latest
+          - hugo-version: '0.114.0'
+            hugo-label: 'v0.114.0'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          token: ${{ secrets.PAT }}
+
+      - name: Setup Mise
+        uses: jdx/mise-action@v3
+        with:
+          install_args: node@latest pnpm@10 hugo-extended@${{ matrix.hugo-version }}
+          tool_versions: |
+            node latest
+            pnpm 10
+            hugo-extended ${{ matrix.hugo-version }}
+          cache: true
+
+      - name: Get pnpm store path
+        id: pnpm-cache
+        run: 'echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT'
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v5
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: pnpm-store-${{ hashFiles('./pnpm-lock.yaml') }}
+          restore-keys: |
+            pnpm-store-
+
+      - name: Setup Hugo cache
+        uses: actions/cache@v5
+        with:
+          path: exampleSite/resources/_gen
+          key: hugo-${{ matrix.hugo-version }}-${{ hashFiles('./exampleSite/**/*.jpg') }}
+          restore-keys: |
+            hugo-${{ matrix.hugo-version }}-
+
+      - name: Install project dependencies
+        run: 'pnpm install'
+
+      - name: Pre-build cleanup
+        if: >
+          matrix.hugo-version == 'latest' &&
+          (github.event_name == 'push' || github.event.pull_request.merged == true)
+        run: 'rm -rf bundled'
+
+      - name: Build
+        run: 'pnpm run build'
+
+      - name: Push artifacts
+        if: >
+          matrix.hugo-version == 'latest' &&
+          (github.event_name == 'push' || github.event.pull_request.merged == true)
+        uses: stefanzweifel/git-auto-commit-action@v7
+        with:
+          file_pattern: 'bundled/**/*.js bundled/**/*.css'
+          commit_message: 'ci: update bundled artifacts [skip ci]'

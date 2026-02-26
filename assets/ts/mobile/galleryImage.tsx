@@ -4,7 +4,6 @@ import invariant from 'tiny-invariant'
 import type { ImageJSON } from '../resources'
 import { useState } from '../state'
 import { loadGsap } from '../utils'
-import { setupAndroidFallback } from '../../../src/utils/androidDetection'
 
 export default function GalleryImage(props: {
   children?: JSX.Element
@@ -23,33 +22,30 @@ export default function GalleryImage(props: {
     loadGsap()
       .then((g) => {
         _gsap = g
-        img?.addEventListener(
-          'load',
-          () => {
-            invariant(img, 'ref must be defined')
-            invariant(loadingDiv, 'loadingDiv must be defined')
-            
-            const fadeAnimation = setupAndroidFallback({
-              opacity: 1,
-              delay: 0.5,
-              duration: 0.5,
-              ease: 'power3.out'
-            })
-
-            if (state().index !== props.ij.index) {
-              _gsap.set(img, { opacity: 1 })
-              _gsap.set(loadingDiv, { opacity: 0 })
-            } else {
-              _gsap.to(img, fadeAnimation)
-              _gsap.to(loadingDiv, { opacity: 0, duration: 0.5, ease: 'power3.in' })
-            }
-          },
-          { once: true, passive: true }
-        )
       })
       .catch((e) => {
         console.log(e)
       })
+    img?.addEventListener(
+      'load',
+      () => {
+        invariant(img, 'ref must be defined')
+        invariant(loadingDiv, 'loadingDiv must be defined')
+        if (state().index !== props.ij.index) {
+          _gsap.set(img, { opacity: 1 })
+          _gsap.set(loadingDiv, { opacity: 0 })
+        } else {
+          _gsap.to(img, {
+            opacity: 1,
+            delay: 0.5,
+            duration: 0.5,
+            ease: 'power3.out'
+          })
+          _gsap.to(loadingDiv, { opacity: 0, duration: 0.5, ease: 'power3.in' })
+        }
+      },
+      { once: true, passive: true }
+    )
   })
 
   return (

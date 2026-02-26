@@ -110,7 +110,7 @@ export function StateProvider(props: {
   length: number
 }): JSX.Element {
   const defaultState: State = {
-    index: 0,
+    index: -1,
     // eslint-disable-next-line solid/reactivity
     length: props.length,
     threshold: thresholds[getThresholdSessionIndex()].threshold,

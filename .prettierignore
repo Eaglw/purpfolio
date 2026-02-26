@@ -1,0 +1,6 @@
+node_modules/
+static/
+exmapleSite/
+single.json
+pnpm-lock.yaml
+bundled/

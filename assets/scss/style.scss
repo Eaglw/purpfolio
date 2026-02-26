@@ -3,14 +3,7 @@
 @use '_partial/customCursor';
 @use '_partial/stage';
 @use '_partial/stageNav';
-
 @use '_partial/collection';
 @use '_partial/gallery';
 
-@use 'swiper/scss';
-
-.swiper-container,
-.swiper-slide {
-  transform: translate3d(0, 0, 0) !important;
-  backface-visibility: hidden !important;
-}
+@use '../../node_modules/swiper/swiper.css';

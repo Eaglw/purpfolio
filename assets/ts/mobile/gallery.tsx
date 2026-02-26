@@ -17,7 +17,6 @@ import invariant from 'tiny-invariant'
 import { type ImageJSON } from '../resources'
 import { useState } from '../state'
 import { loadGsap, type Vector } from '../utils'
-import { setupAndroidFallback } from '../../../src/utils/androidDetection'
 
 import GalleryImage from './galleryImage'
 import GalleryNav, { capitalizeFirstLetter } from './galleryNav'
@@ -73,21 +72,17 @@ export default function Gallery(props: {
     invariant(curtain, 'curtain is not defined')
     invariant(gallery, 'gallery is not defined')
 
-    const animations = setupAndroidFallback({
-        opacity: 1,
-        duration: 1
+    _gsap.to(curtain, {
+      opacity: 1,
+      duration: 1
     })
 
-    _gsap.to(curtain, animations)
-
-    const slideAnimation = setupAndroidFallback({
-        y: 0,
-        ease: 'power3.inOut',
-        duration: 1,
-        delay: 0.4
+    _gsap.to(gallery, {
+      y: 0,
+      ease: 'power3.inOut',
+      duration: 1,
+      delay: 0.4
     })
-
-    _gsap.to(gallery, slideAnimation)
 
     setTimeout(() => {
       props.setScrollable(false)
@@ -102,13 +97,11 @@ export default function Gallery(props: {
     invariant(gallery, 'curtain is not defined')
     invariant(curtain, 'gallery is not defined')
 
-    const slideAnimation = setupAndroidFallback({
-        y: '100%',
-        ease: 'power3.inOut',
-        duration: 1
+    _gsap.to(gallery, {
+      y: '100%',
+      ease: 'power3.inOut',
+      duration: 1
     })
-
-    _gsap.to(gallery, slideAnimation)
 
     _gsap.to(curtain, {
       opacity: 0,

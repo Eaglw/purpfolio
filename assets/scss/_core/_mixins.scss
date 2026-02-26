@@ -1,3 +1,5 @@
+@use 'sass:map';
+
 $breakpoints: (
   'mobile': 375px,
   'tablet': 768px,
@@ -8,8 +10,8 @@ $breakpoints: (
 // Breakpoints
 
 @mixin min-width($breakpoint) {
-  @if map-has-key($breakpoints, $breakpoint) {
-    @media (min-width: map-get($breakpoints, $breakpoint)) {
+  @if map.has-key($breakpoints, $breakpoint) {
+    @media (min-width: map.get($breakpoints, $breakpoint)) {
       @content;
     }
   } @else {
@@ -18,48 +20,11 @@ $breakpoints: (
 }
 
 @mixin max-width($breakpoint) {
-  @if map-has-key($breakpoints, $breakpoint) {
-    @media (max-width: (map-get($breakpoints, $breakpoint) - 1px)) {
+  @if map.has-key($breakpoints, $breakpoint) {
+    @media (max-width: (map.get($breakpoints, $breakpoint) - 1px)) {
       @content;
     }
   } @else {
     @error "Unfortunately, no value could be retrieved from `#{$breakpoint}`. " + "Available breakpoints are: #{map-keys($breakpoints)}.";
-  }
-}
-
-// Modifica in _mixins.scss o crea un nuovo file _mobile.scss
-@include max-width('tablet') {
-  .container {
-    img {
-      width: 70% !important; // Forza larghezza massima
-      max-width: none !important;
-      height: auto !important;
-      margin: 0 auto;
-    }
-    
-    // Per la galleria mobile
-    .swiper-slide {
-      img {
-        width: 100% !important;
-        height: auto !important;
-        object-fit: contain;
-      }
-    }
-  }
-
-  // Aggiusta il padding-top della collection per mobile
-  .collection {
-    padding-top: calc(var(--window-height) * 0.2) !important; // Riduce lo spazio superiore
-    
-    img {
-      top: calc(var(--window-height) * 0.2) !important; // Sposta le immagini più in alto
-    }
-  }
-
-  // Aggiusta anche la gallery per mobile
-  .gallery {
-    img {
-      margin-top: -15vh; // Sposta le immagini più in alto nella gallery
-    }
   }
 }

@@ -3,20 +3,18 @@ import solidPlugin from 'vite-plugin-solid'
 
 export default defineConfig({
   plugins: [solidPlugin()],
-  css: {
-    preprocessorOptions: {
-      scss: {
-        api: 'modern-compiler'
-      }
-    }
-  },
   build: {
-    outDir: './static/bundled',
-    watch: {
-      include: 'assets/**'
-    },
+    outDir: './bundled',
+    watch: process.env.DISABLE_WATCH
+      ? null
+      : {
+          include: 'assets/**'
+        },
     rollupOptions: {
-      input: './assets/ts/main.tsx',
+      input: {
+        main: './assets/ts/main.tsx',
+        critical: './assets/ts/critical.ts'
+      },
       output: {
         format: 'es',
         entryFileNames: 'js/[name].js',
@@ -24,6 +22,7 @@ export default defineConfig({
         assetFileNames: '[ext]/[name].[ext]',
         compact: true
       }
+<<<<<<< HEAD
     },
     terserOptions: {
       compress: {
@@ -31,6 +30,14 @@ export default defineConfig({
       },
       output: {
         comments: false
+=======
+    }
+  },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        loadPaths: ['./assets/scss']
+>>>>>>> upstream/main
       }
     }
   }

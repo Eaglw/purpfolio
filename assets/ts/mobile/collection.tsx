@@ -61,8 +61,7 @@ export default function Collection(props: {
     imgs.forEach((img, i) => {
       // preload first 5 images on page load
       if (i < 5) {
-        img.src = img.dataset.src!
-        img.classList.add('visible')
+        img.src = img.dataset.src
       }
       // event listeners
       img.addEventListener(
@@ -81,16 +80,11 @@ export default function Collection(props: {
       )
       // preload
       onIntersection(img, (entry) => {
-        // no intersection or low ratio, hold
-        if (entry.intersectionRatio < 0.1) return false
-        
-        // set src and visible class
-        img.src = img.dataset.src!
-        img.classList.add('visible')
-        
+        // no intersection, hold
+        if (entry.intersectionRatio <= 0) return false
         // preload the i + 5th image, if it exists
         if (i + 5 < imgs.length) {
-          imgs[i + 5].src = imgs[i + 5].dataset.src!
+          imgs[i + 5].src = imgs[i + 5].dataset.src
         }
         // triggered
         return true
@@ -122,7 +116,7 @@ export default function Collection(props: {
               data-src={ij.loUrl}
               alt={ij.alt}
               style={{
-                transform: `translate3d(${i() !== 0 ? getRandom(-25, 25) : 0}%, calc(${i() !== 0 ? getRandom(-35, 35) : 0}% - 50%), 0)`
+                transform: `translate3d(${i() !== 0 ? getRandom(-25, 25) : 0}%, ${i() !== 0 ? getRandom(-35, 35) : 0}%, 0)`
               }}
               onClick={() => {
                 handleClick(i())

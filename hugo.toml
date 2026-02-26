@@ -34,3 +34,21 @@ path = "github.com/Sped0n/bridget/v2"
 [outputs]
   home = ["HTML", "JSON"]
   page = ["HTML", "JSON"]
+[[module.mounts]]
+source = 'archetypes'
+target = 'archetypes'
+[[module.mounts]]
+source = 'assets'
+target = 'assets'
+[[module.mounts]]
+source = 'layouts'
+target = 'layouts'
+[[module.mounts]]
+source = 'static'
+target = 'static'
+[[module.mounts]]
+source = "bundled"
+target = "assets/bundled"
+[[module.mounts]]
+source = "bundled"
+target = "static/bundled"

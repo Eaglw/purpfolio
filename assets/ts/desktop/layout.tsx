@@ -1,4 +1,3 @@
-// eslint-disable-next-line sort-imports
 import { Show, createMemo, createSignal, type JSX } from 'solid-js'
 
 import type { ImageJSON } from '../resources'
@@ -30,9 +29,9 @@ export interface HistoryItem {
   y: number
 }
 
-// components
-// ...
-import { createEffect, onCleanup } from 'solid-js'
+/**
+ * components
+ */
 
 export default function Desktop(props: {
   children?: JSX.Element
@@ -42,18 +41,6 @@ export default function Desktop(props: {
   nextText: string
   loadingText: string
 }): JSX.Element {
-  // variables
-  const updateWindowSize = () => {
-    document.documentElement.style.setProperty('--window-height', `${window.innerHeight}px`)
-    document.documentElement.style.setProperty('--window-width', `${window.innerWidth}px`)
-    document.documentElement.style.setProperty('--nav-height', '80px') // or calculate it
-  }
-
-  createEffect(() => {
-    updateWindowSize()
-    window.addEventListener('resize', updateWindowSize)
-    onCleanup(() => window.removeEventListener('resize', updateWindowSize))
-  })
   const [cordHist, setCordHist] = createSignal<HistoryItem[]>([])
   const [isLoading, setIsLoading] = createSignal(false)
   const [isOpen, setIsOpen] = createSignal(false)

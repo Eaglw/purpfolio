@@ -18,6 +18,9 @@
       {{- $options := . | merge (dict "outputStyle" "compressed") -}}
       {{- $resource = $resource | toCSS $options -}}
     {{- end -}}
+    {{- with .Template -}}
+      {{- $resource = $resource | resources.ExecuteAsTemplate . $.Context -}}
+    {{- end -}}
     {{- if or .Minify .Inline -}}
       {{- $resource = $resource | minify -}}
     {{- end -}}
@@ -37,26 +40,26 @@
       rel="preload"
       as="style"
       onload="this.onload=null;this.rel='stylesheet'"
-      href="{{ $href }}"
-      {{ if .Crossorigin }}crossorigin="anonymous"{{ end }}{{ with $integrity }}
-        integrity="{{ . }}"
-      {{ end }}{{ with .Attr }}{{ . | safeHTMLAttr }}{{ end }}
+      href="{{- $href -}}"
+      {{- if .Crossorigin -}}crossorigin="anonymous"{{- end -}}{{- with $integrity -}}
+        integrity="{{- . -}}"
+      {{- end -}}{{- with .Attr -}}{{- . | safeHTMLAttr -}}{{- end -}}
     />
     <noscript
       ><link
         rel="stylesheet"
-        href="{{ $href }}"
-        {{ if .Crossorigin }}crossorigin="anonymous"{{ end }}{{ with $integrity }}
-          integrity="{{ . }}"
-        {{ end }}{{ with .Attr }}{{ . | safeHTMLAttr }}{{ end }}
+        href="{{- $href -}}"
+        {{- if .Crossorigin -}}crossorigin="anonymous"{{- end -}}{{- with $integrity -}}
+          integrity="{{- . -}}"
+        {{- end -}}{{- with .Attr -}}{{- . | safeHTMLAttr -}}{{- end -}}
     /></noscript>
   {{- else -}}
     <link
       rel="stylesheet"
-      href="{{ $href }}"
-      {{ if .Crossorigin }}crossorigin="anonymous"{{ end }}{{ with $integrity }}
-        integrity="{{ . }}"
-      {{ end }}{{ with .Attr }}{{ . | safeHTMLAttr }}{{ end }}
+      href="{{- $href -}}"
+      {{- if .Crossorigin -}}crossorigin="anonymous"{{- end -}}{{- with $integrity -}}
+        integrity="{{- . -}}"
+      {{- end -}}{{- with .Attr -}}{{- . | safeHTMLAttr -}}{{- end -}}
     />
   {{- end -}}
 {{- end -}}

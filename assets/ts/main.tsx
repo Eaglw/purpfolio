@@ -44,7 +44,6 @@ function Main(): JSX.Element {
 
   // states
   const [scrollable, setScollable] = createSignal(true)
-  const [isLibLoaded, setLibLoaded] = createSignal(true)
 
   createEffect(() => {
     if (scrollable()) {

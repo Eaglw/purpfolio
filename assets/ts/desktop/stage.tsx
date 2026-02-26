@@ -55,7 +55,7 @@ function getImagesFromIndexes(imgs: DesktopImage[], indexes: number[]): DesktopI
 
 function hires(imgs: DesktopImage[]): void {
   imgs.forEach((img) => {
-    if (!img || img.src === img.dataset.hiUrl) return
+    if (img.src === img.dataset.hiUrl) return
     img.src = img.dataset.hiUrl
     img.height = parseInt(img.dataset.hiImgH)
     img.width = parseInt(img.dataset.hiImgW)
@@ -64,7 +64,7 @@ function hires(imgs: DesktopImage[]): void {
 
 function lores(imgs: DesktopImage[]): void {
   imgs.forEach((img) => {
-    if (!img || img.src === img.dataset.loUrl) return
+    if (img.src === img.dataset.loUrl) return
     img.src = img.dataset.loUrl
     img.height = parseInt(img.dataset.loImgH)
     img.width = parseInt(img.dataset.loImgW)
@@ -135,7 +135,7 @@ export default function Stage(props: {
   }
 
   const onClick: () => void = () => {
-    !props.isAnimating() && props.setIsOpen(true)
+    if (!props.isAnimating()) props.setIsOpen(true)
   }
 
   const setPosition: () => void = () => {
@@ -145,47 +145,25 @@ export default function Stage(props: {
     const trailElsIndex = getTrailElsIndex(_cordHist)
     if (trailElsIndex.length === 0) return
 
+    const elsTrail = getImagesFromIndexes(imgs, trailElsIndex)
+
     const _isOpen = props.isOpen()
     const _state = state()
 
-    if (!_gsap) return
-
-    // Preserve mapping between history and images
-    const elsTrail: DesktopImage[] = []
-    const validCordHist: HistoryItem[] = []
-    
-    trailElsIndex.forEach((imgIndex, historyIndex) => {
-      const img = imgs[imgIndex]
-      if (img) {
-        elsTrail.push(img)
-        validCordHist.push(_cordHist[historyIndex])
-      }
-    })
-
-    if (elsTrail.length === 0) return
-
     _gsap.set(elsTrail, {
-      x: (i: number) => validCordHist[i].x - window.innerWidth / 2,
-      y: (i: number) => validCordHist[i].y - window.innerHeight / 2,
-      opacity: (i: number) => {
-        // If it's the current image (last in history), opacity 1
-        if (validCordHist[i] === _cordHist[_cordHist.length - 1]) return _isOpen ? 0 : 1;
-        
-        // Find position of this history item in the original history to calculate trail opacity
-        const originalIndex = _cordHist.indexOf(validCordHist[i]);
-        return Math.max(
-          (originalIndex + 1 + _state.trailLength <= _cordHist.length ? 0 : 1) - (_isOpen ? 1 : 0),
+      x: (i: number) => _cordHist[i].x - window.innerWidth / 2,
+      y: (i: number) => _cordHist[i].y - window.innerHeight / 2,
+      opacity: (i: number) =>
+        Math.max(
+          (i + 1 + _state.trailLength <= _cordHist.length ? 0 : 1) - (_isOpen ? 1 : 0),
           0
-        );
-      },
+        ),
       zIndex: (i: number) => i,
       scale: 0.6
     })
 
     if (_isOpen) {
-      const elc = getImagesFromIndexes(imgs, [getCurrentElIndex(_cordHist)]).filter(img => img !== undefined)[0]
-      if (!elc) return
-
+      const elc = getImagesFromIndexes(imgs, [getCurrentElIndex(_cordHist)])[0]
       const indexArrayToHires: number[] = []
       const indexArrayToCleanup: number[] = []
       switch (props.navVector()) {
@@ -200,8 +178,8 @@ export default function Stage(props: {
         default:
           break
       }
-      hires(getImagesFromIndexes(imgs, indexArrayToHires).filter(img => img !== undefined)) // preload
-      _gsap.set(getImagesFromIndexes(imgs, indexArrayToCleanup).filter(img => img !== undefined), { opacity: 0 })
+      hires(getImagesFromIndexes(imgs, indexArrayToHires)) // preload
+      _gsap.set(getImagesFromIndexes(imgs, indexArrayToCleanup), { opacity: 0 })
       _gsap.set(elc, { x: 0, y: 0, scale: 1 }) // set current to center
       setLoaderForHiresImage(elc) // set loader, if loaded set current opacity to 1
     } else {
@@ -400,19 +378,11 @@ export default function Stage(props: {
     // load gsap on mousemove
     window.addEventListener(
       'mousemove',
-      (e) => {
+      () => {
         loadGsap()
           .then((g) => {
             _gsap = g
             gsapLoaded = true
-            
-            // If we have no history, initialize it with current mouse position
-            if (props.cordHist().length === 0) {
-              const _state = state()
-              props.setCordHist([{ i: _state.index, x: e.clientX, y: e.clientY }])
-            }
-            
-            if (props.cordHist().length > 0) setPosition()
           })
           .catch((e) => {
             console.log(e)
@@ -423,14 +393,6 @@ export default function Stage(props: {
     // event listeners
     abortController = new AbortController()
     const abortSignal = abortController.signal
-    
-    // Set initial last position to current mouse position or center
-    window.addEventListener('mousemove', (e) => {
-      if (last.x === 0 && last.y === 0) {
-        last = { x: e.clientX, y: e.clientY }
-      }
-    }, { once: true, passive: true })
-
     window.addEventListener('mousemove', onMouse, {
       passive: true,
       signal: abortSignal
@@ -460,7 +422,6 @@ export default function Stage(props: {
             .catch(() => {
               void 0
             })
-            // eslint-disable-next-line solid/reactivity
             .then(() => {
               // abort controller for cleanup
               abortController?.abort()
