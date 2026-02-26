@@ -5,11 +5,12 @@ export default defineConfig({
   plugins: [solidPlugin()],
   build: {
     outDir: './bundled',
-    watch: process.env.DISABLE_WATCH
-      ? null
-      : {
-          include: 'assets/**'
-        },
+    watch:
+      process.env.VITE_WATCH === '1'
+        ? {
+            include: 'assets/**'
+          }
+        : null,
     rollupOptions: {
       input: {
         main: './assets/ts/main.tsx',
