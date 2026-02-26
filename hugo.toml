@@ -9,10 +9,6 @@ disableKinds = ["section", "taxonomy", "term"]
 # robots.txt
 enableRobotsTXT = true
 
-[outputs]
-  home = ["HTML", "JSON"]
-  page = ["HTML", "JSON"]
-
 # available options
 # * en (powered by Geist)
 # * de (powered by Geist)
@@ -24,6 +20,7 @@ enableRobotsTXT = true
 # * ja (powered by Noto Sans JP)
 # * ko (powered by Noto Sans KR)
 defaultContentLanguage = 'it'
+
 # config/_default/hugo.toml
 [module]
 [[module.imports]]
@@ -33,3 +30,7 @@ path = "github.com/Sped0n/bridget/v2"
   [markup.goldmark]
     [markup.goldmark.renderer]
       unsafe = true
+
+[outputs]
+  home = ["HTML", "JSON"]
+  page = ["HTML", "JSON"]
