@@ -1,0 +1,35 @@
+name: Sync Upstream
+
+on:
+  schedule:
+    - cron: '0 2 * * *'  # Ogni giorno alle 02:00 UTC (3:00 CET)
+  workflow_dispatch:  # Bottone manuale su GitHub
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0  # Importante per storia completa
+
+      - name: Sync fork
+        id: sync
+        uses: aormsby/Fork-Sync-With-Upstream-action@v3.1
+        with:
+          target_branch: main
+          upstream_repo: 'Sped0n/bridget'  # Sostituisci con OWNER/REPO esatto, es: "proprietario/repo-originale"
+          upstream_branch: main
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Nuovo sync avvenuto?
+        if: steps.sync.outputs.has_new_commits == 'true'
+        run: echo "Nuovi commit da upstream integrati!"
+
+      - name: Errore sync
+        if: failure()
+        run: |
+          echo "❌ Sync fallito! Controlla conflitti o repo upstream."
+          exit 1  # Forza notifica failure
