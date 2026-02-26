@@ -61,7 +61,8 @@ export default function Collection(props: {
     imgs.forEach((img, i) => {
       // preload first 5 images on page load
       if (i < 5) {
-        img.src = img.dataset.src
+        img.src = img.dataset.src!
+        img.classList.add('visible')
       }
       // event listeners
       img.addEventListener(
@@ -80,8 +81,8 @@ export default function Collection(props: {
       )
       // preload
       onIntersection(img, (entry) => {
-        // no intersection, hold
-        if (entry.intersectionRatio <= 0) return false
+        // no intersection or low ratio, hold
+        if (entry.intersectionRatio < 0.1) return false
         
         // set src and visible class
         img.src = img.dataset.src!
@@ -89,7 +90,7 @@ export default function Collection(props: {
         
         // preload the i + 5th image, if it exists
         if (i + 5 < imgs.length) {
-          imgs[i + 5].src = imgs[i + 5].dataset.src
+          imgs[i + 5].src = imgs[i + 5].dataset.src!
         }
         // triggered
         return true

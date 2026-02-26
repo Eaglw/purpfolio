@@ -378,11 +378,19 @@ export default function Stage(props: {
     // load gsap on mousemove
     window.addEventListener(
       'mousemove',
-      () => {
+      (e) => {
         loadGsap()
           .then((g) => {
             _gsap = g
             gsapLoaded = true
+            
+            // If we have no history, initialize it with current mouse position
+            if (props.cordHist().length === 0) {
+              const _state = state()
+              props.setCordHist([{ i: _state.index, x: e.clientX, y: e.clientY }])
+            }
+            
+            if (props.cordHist().length > 0) setPosition()
           })
           .catch((e) => {
             console.log(e)
@@ -393,6 +401,14 @@ export default function Stage(props: {
     // event listeners
     abortController = new AbortController()
     const abortSignal = abortController.signal
+    
+    // Set initial last position to current mouse position or center
+    window.addEventListener('mousemove', (e) => {
+      if (last.x === 0 && last.y === 0) {
+        last = { x: e.clientX, y: e.clientY }
+      }
+    }, { once: true, passive: true })
+
     window.addEventListener('mousemove', onMouse, {
       passive: true,
       signal: abortSignal
