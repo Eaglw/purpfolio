@@ -13,12 +13,16 @@ export default function GalleryImage(props: {
 }): JSX.Element {
   let img: HTMLImageElement | undefined
   let loadingDiv: HTMLDivElement | undefined
+  let revealed = false
 
   let _gsap: typeof gsap | undefined
 
   const [state] = useState()
 
   const revealImage: () => void = () => {
+    if (revealed) return
+    revealed = true
+
     invariant(img, 'ref must be defined')
     invariant(loadingDiv, 'loadingDiv must be defined')
 
@@ -61,6 +65,14 @@ export default function GalleryImage(props: {
       () => revealImage(),
       { once: true, passive: true }
     )
+
+    // Chrome Android can serve cached images before the load listener runs.
+    // If it's already complete, reveal immediately to avoid a stuck opacity: 0 state.
+    if (img?.complete) {
+      setTimeout(() => {
+        revealImage()
+      }, 0)
+    }
   })
 
   return (

@@ -1,5 +1,5 @@
 {{- /* fingerprint */ -}}
-{{- $fingerprint := .Scratch.Get "fingerprint" | default "md5" -}}
+{{- $fingerprint := .Scratch.Get "fingerprint" | default "" -}}
 
 {{- /* critical style */ -}}
 {{- $style := dict "Source" "bundled/css/critical.css" "Fingerprint" $fingerprint -}}
@@ -7,7 +7,7 @@
 {{- $style = dict "Context" . "ToCSS" $options "Inline" true "Template" true | merge $style -}}
 {{- partial "plugin/style.html" $style -}}
 
-{{- $style := dict "Source" "bundled/css/main.css" "Fingerprint" $fingerprint "Defer" true -}}
+{{- $style := dict "Link" ("bundled/css/main.css" | relURL) "Defer" true -}}
 {{- partial "plugin/style.html" $style -}}
 
 {{- /* fuck safari */ -}}
@@ -21,7 +21,7 @@
 </script>
 
 {{- /* main js */ -}}
-{{- $script := dict "Source" "bundled/js/main.js" "Fingerprint" $fingerprint "Defer" true "Esm" true -}}
+{{- $script := dict "Link" ("bundled/js/main.js" | relURL) "Defer" true "Esm" true -}}
 {{- partial "plugin/script.html" $script -}}
 
 {{- /* fonts */ -}}
