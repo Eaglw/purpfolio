@@ -5,9 +5,14 @@ baseURL = 'https://purpfolio.netlify.app/'
 # website title
 title = 'Purpfolio'
 # don't touch this
-disableKinds = ["section", "taxonomy", "term", "home"]
+disableKinds = ["section", "taxonomy", "term"]
 # robots.txt
 enableRobotsTXT = true
+
+[outputs]
+  home = ["HTML", "JSON"]
+  page = ["HTML", "JSON"]
+
 # available options
 # * en (powered by Geist)
 # * de (powered by Geist)

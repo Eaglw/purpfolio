@@ -15,7 +15,10 @@ export async function getImageJSON(): Promise<ImageJSON[]> {
     return [] // no images on 404 page
   }
   try {
-    const response = await fetch(`${window.location.href}index.json`, {
+    const url = window.location.pathname.endsWith('/') 
+      ? `${window.location.pathname}index.json` 
+      : `${window.location.pathname}/index.json`
+    const response = await fetch(url, {
       headers: {
         Accept: 'application/json'
       }
