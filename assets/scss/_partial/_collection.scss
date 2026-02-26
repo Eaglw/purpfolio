@@ -18,6 +18,13 @@
     transform: translate3d(0, -50%, 0);
     align-self: center;
 
+    opacity: 0;
+    transition: opacity 0.6s ease-out;
+
+    &.visible {
+      opacity: 1;
+    }
+
     &:last-child {
       margin-bottom: calc(var(--window-height) * 0.35);
     }

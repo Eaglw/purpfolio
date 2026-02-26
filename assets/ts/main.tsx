@@ -54,20 +54,6 @@ function Main(): JSX.Element {
     }
   })
 
-  Promise.all([
-    loadGsap(),
-    loadSwiper()
-  ]).then(([gsap, Swiper]) => {
-    _gsap = gsap;
-    // Inizializza Swiper
-    if (galleryInner) {
-      _swiper = new Swiper(galleryInner, { spaceBetween: 20 });
-      _swiper.on('slideChange', ({ realIndex }) => {
-        setIndex(realIndex);
-      });
-    }
-  }).catch(console.error);
-
   return (
     <>
       <Show when={ijs.state === 'ready'}>

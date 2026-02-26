@@ -82,6 +82,11 @@ export default function Collection(props: {
       onIntersection(img, (entry) => {
         // no intersection, hold
         if (entry.intersectionRatio <= 0) return false
+        
+        // set src and visible class
+        img.src = img.dataset.src!
+        img.classList.add('visible')
+        
         // preload the i + 5th image, if it exists
         if (i + 5 < imgs.length) {
           imgs[i + 5].src = imgs[i + 5].dataset.src
@@ -111,12 +116,12 @@ export default function Collection(props: {
           {(ij, i) => (
             <img
               ref={imgs[i()]}
-              height={ij.loImgH*20}
-              width={ij.loImgW*20}
+              height={ij.loImgH}
+              width={ij.loImgW}
               data-src={ij.loUrl}
               alt={ij.alt}
               style={{
-                transform: `translate3d(${i() !== 0 ? getRandom(-25, 25) : 0}%, ${i() !== 0 ? getRandom(-35, 35) : 0}%, 0)`
+                transform: `translate3d(${i() !== 0 ? getRandom(-25, 25) : 0}%, calc(${i() !== 0 ? getRandom(-35, 35) : 0}% - 50%), 0)`
               }}
               onClick={() => {
                 handleClick(i())
